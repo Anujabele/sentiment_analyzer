@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sentiment Result</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Review:</h2>
+    <p>{{ review }}</p>
+    <h3>Sentiment: {{ result.label }} (Confidence: {{ result.score }})</h3>
+
+    <canvas id="sentimentChart" width="400" height="200"></canvas>
+    <script>
+    const data = {{ chart_data | tojson }};
+
+    const ctx = document.getElementById('sentimentChart').getContext('2d');
+    const chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: Object.keys(data),      // ['positive', 'negative', 'neutral']
+            datasets: [{
+                label: 'Sentiment Distribution',
+                data: Object.values(data),  // [5, 3, 2]
+                backgroundColor: ['#4caf50', '#f44336', '#ffc107']
+            }]
+        }
+    });
+</script>
+
+</body>
+</html>
